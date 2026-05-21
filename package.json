@@ -1,1 +1,22 @@
-
+{
+  "name": "magestade-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "next": "14.2.5",
+    "next-auth": "^4.24.7",
+    "prisma": "^6.0.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.0.0"
+  }
+}
