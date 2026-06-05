@@ -1,1 +1,192 @@
 // Placeholder for prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  HR
+  CLIENT
+  USER
+}
+
+enum ApplicationStatus {
+  APPLIED
+  SCREENING
+  INTERVIEW
+  ASSESSMENT
+  OFFER
+  HIRED
+  REJECTED
+}
+
+enum ContractStatus {
+  DRAFT
+  ACTIVE
+  EXPIRED
+  TERMINATED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  TRIAL
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  passwordHash  String?
+  role          Role     @default(USER)
+
+  companyId     String?
+  company       Company? @relation(fields: [companyId], references: [id])
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  auditLogs     AuditLog[]
+
+  @@index([companyId])
+}
+
+model Company {
+  id              String         @id @default(cuid())
+  name            String
+  email           String?
+  phone           String?
+  address         String?
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  users           User[]
+  candidates      Candidate[]
+  jobs            Job[]
+  contracts       Contract[]
+  subscriptions   Subscription[]
+
+  @@index([name])
+}
+
+model Candidate {
+  id              String      @id @default(cuid())
+
+  companyId       String
+  company         Company     @relation(fields: [companyId], references: [id])
+
+  firstName       String
+  lastName        String
+  email           String
+  phone           String?
+
+  cvUrl           String?
+  skills          String?
+  experience      String?
+  notes           String?
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  applications    Application[]
+
+  @@index([companyId])
+  @@index([email])
+}
+
+model Job {
+  id              String          @id @default(cuid())
+
+  companyId       String
+  company         Company         @relation(fields: [companyId], references: [id])
+
+  title           String
+  description     String          @db.Text
+  location        String?
+  isActive        Boolean         @default(true)
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  applications    Application[]
+
+  @@index([companyId])
+}
+
+model Application {
+  id              String              @id @default(cuid())
+
+  candidateId     String
+  candidate       Candidate           @relation(fields: [candidateId], references: [id])
+
+  jobId           String
+  job             Job                 @relation(fields: [jobId], references: [id])
+
+  status          ApplicationStatus   @default(APPLIED)
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([candidateId])
+  @@index([jobId])
+}
+
+model Contract {
+  id              String          @id @default(cuid())
+
+  companyId       String
+  company         Company         @relation(fields: [companyId], references: [id])
+
+  title           String
+  fileUrl         String?
+
+  status          ContractStatus  @default(DRAFT)
+
+  startDate       DateTime?
+  endDate         DateTime?
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([companyId])
+}
+
+model Subscription {
+  id              String              @id @default(cuid())
+
+  companyId       String
+  company         Company             @relation(fields: [companyId], references: [id])
+
+  planName        String
+  status          SubscriptionStatus  @default(TRIAL)
+
+  startedAt       DateTime            @default(now())
+  expiresAt       DateTime?
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([companyId])
+}
+
+model AuditLog {
+  id              String      @id @default(cuid())
+
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+
+  action          String
+  entity          String
+  entityId        String?
+
+  createdAt       DateTime    @default(now())
+
+  @@index([userId])
+}
