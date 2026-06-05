@@ -1,0 +1,15 @@
+node_modules
+
+.next
+
+.env
+
+.vercel
+
+coverage
+
+dist
+
+*.log
+
+.prisma
