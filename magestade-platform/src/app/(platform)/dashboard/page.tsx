@@ -1,3 +1,5 @@
+import { Card } from "@/components/ui/Card";
+
 async function getStats() {
   const res = await fetch(
     "http://localhost:3000/api/dashboard?companyId=default",
@@ -12,28 +14,21 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1>Executive Dashboard</h1>
+      <h1 style={{ marginBottom: 20 }}>
+        Executive Dashboard
+      </h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
-        <div>
-          <h3>Candidates</h3>
-          <p>{stats.totalCandidates}</p>
-        </div>
-
-        <div>
-          <h3>Jobs</h3>
-          <p>{stats.totalJobs}</p>
-        </div>
-
-        <div>
-          <h3>Applications</h3>
-          <p>{stats.totalApplications}</p>
-        </div>
-
-        <div>
-          <h3>Active Jobs</h3>
-          <p>{stats.activeJobs}</p>
-        </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: 20
+        }}
+      >
+        <Card title="Candidates" value={stats.totalCandidates} />
+        <Card title="Jobs" value={stats.totalJobs} />
+        <Card title="Applications" value={stats.totalApplications} />
+        <Card title="Active Jobs" value={stats.activeJobs} />
       </div>
     </div>
   );
