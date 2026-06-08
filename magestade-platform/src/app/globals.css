@@ -5,8 +5,16 @@
 html,
 body {
   margin: 0;
-  padding: 0;
-  background: #f5f7fa;
+  font-family: Inter, system-ui, sans-serif;
+  background: #F5F7FA;
   color: #111827;
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: #6B7280;
+  line-height: 1.5;
 }
