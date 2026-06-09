@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/Card";
+import { MetricCard } from "@/components/ui/MetricCard";
 
 async function getStats() {
   const res = await fetch(
@@ -14,21 +14,21 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 style={{ marginBottom: 20 }}>
-        Executive Dashboard
+      <h1 style={{ marginBottom: 24 }}>
+        Executive Overview
       </h1>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: 20
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: 16
         }}
       >
-        <Card title="Candidates" value={stats.totalCandidates} />
-        <Card title="Jobs" value={stats.totalJobs} />
-        <Card title="Applications" value={stats.totalApplications} />
-        <Card title="Active Jobs" value={stats.activeJobs} />
+        <MetricCard title="Candidates" value={stats.totalCandidates} />
+        <MetricCard title="Jobs" value={stats.totalJobs} />
+        <MetricCard title="Applications" value={stats.totalApplications} />
+        <MetricCard title="Active Jobs" value={stats.activeJobs} />
       </div>
     </div>
   );
