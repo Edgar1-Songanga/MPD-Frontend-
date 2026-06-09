@@ -8,7 +8,7 @@ export default function PricingPage() {
         {/* BASIC */}
         <div style={{ border: "1px solid #E5E7EB", padding: 20 }}>
           <h3>Starter</h3>
-          <p>$49/month</p>
+          <p>$2.500/month</p>
           <ul>
             <li>Basic HR tools</li>
             <li>Candidate tracking</li>
@@ -19,7 +19,7 @@ export default function PricingPage() {
         {/* PRO */}
         <div style={{ border: "2px solid #C9A24A", padding: 20 }}>
           <h3>Professional</h3>
-          <p>$99/month</p>
+          <p>$5.000/month</p>
           <ul>
             <li>Full HR suite</li>
             <li>Contracts system</li>
@@ -31,7 +31,7 @@ export default function PricingPage() {
         {/* ENTERPRISE */}
         <div style={{ border: "1px solid #E5E7EB", padding: 20 }}>
           <h3>Enterprise</h3>
-          <p>Custom</p>
+          <p>$10.000/month</p>
           <ul>
             <li>Multi-company setup</li>
             <li>Dedicated support</li>
