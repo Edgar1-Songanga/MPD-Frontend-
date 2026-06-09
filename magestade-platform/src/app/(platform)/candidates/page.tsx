@@ -1,4 +1,3 @@
-// Placeholder for src/app/(platform)/candidates/page.tsx
 async function getCandidates() {
   const res = await fetch(
     "http://localhost:3000/api/candidates?companyId=default",
