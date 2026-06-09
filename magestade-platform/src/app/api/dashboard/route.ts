@@ -1,4 +1,3 @@
-// Placeholder for src/app/api/dashboard/route.ts
 import { NextResponse } from "next/server";
 import { dashboardService } from "@/services/dashboard.service";
 
