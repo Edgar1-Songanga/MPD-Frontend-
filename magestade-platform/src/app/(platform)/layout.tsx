@@ -39,7 +39,7 @@ export default async function PlatformLayout({
       </aside>
 
       {/* MAIN */}
-      <main style={{ flex: 1, padding: 30 }}>
+      <main style={{ flex: 1, padding: 32 }}>
         {children}
       </main>
     </div>
