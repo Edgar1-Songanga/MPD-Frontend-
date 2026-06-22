@@ -1,0 +1,43 @@
+{
+  "name": "magestade-pura-digital",
+  "version": "0.1.0",
+  "description": "Enterprise Workforce & Business Operating System Platform (Main Platform - Payroll OS is separate)",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "test": "turbo run test",
+    "test:cov": "turbo run test:cov",
+    "test:e2e": "turbo run test:e2e",
+    "db:push": "cd packages/db && pnpm prisma db push",
+    "db:seed": "cd packages/db && pnpm prisma db seed",
+    "db:studio": "cd packages/db && pnpm prisma studio",
+    "db:migrate": "cd packages/db && pnpm prisma migrate dev",
+    "gen:domain": "node tools/cli/index.ts gen:domain",
+    "gen:migration": "node tools/cli/index.ts gen:migration",
+    "setup": "bash setup.sh"
+  },
+  "workspaces": [
+    "packages/*",
+    "packages/domains/*",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.5",
+    "turbo": "^1.11.3",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
+  }
+}
