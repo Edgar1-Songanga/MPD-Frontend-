@@ -1,0 +1,14 @@
+{
+  "name": "@magestade/domains-compliance",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@magestade/core": "*",
+    "@magestade/db": "*",
+    "@magestade/types": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

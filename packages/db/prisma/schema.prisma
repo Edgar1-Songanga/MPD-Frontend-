@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id        String     @id @default(cuid())
+  name      String
+  legalName String
+  country   String     @default("AO")
+  taxId     String     @unique
+  email     String
+  phone     String
+  status    String     @default("ACTIVE")
+
+  employees Employee[]
+  courses   Course[]
+  invoices  Invoice[]
+  incidents Incident[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("companies")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String
+  password    String
+  roles       String[]
+  permissions String[]
+  status      String   @default("ACTIVE")
+
+  auditLogs AuditLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// WORKFORCE
+model Employee {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  ssn         String   @unique
+  dateOfBirth DateTime
+  department  String
+  jobTitle    String
+  startDate   DateTime
+  endDate     DateTime?
+  status      String   @default("ACTIVE")
+
+  attendance Attendance[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("employees")
+}
+
+model Attendance {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  date    DateTime
+  timeIn  DateTime?
+  timeOut DateTime?
+  duration Int
+  status   String
+
+  @@unique([employeeId, date])
+  @@map("attendance")
+}
+
+// ACADEMY
+model Course {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String
+  duration    Int
+  status      String   @default("ACTIVE")
+
+  enrollments Enrollment[]
+
+  createdAt DateTime @default(now())
+  @@map("courses")
+}
+
+model Enrollment {
+  id         String    @id @default(cuid())
+  courseId   String
+  course     Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  employeeId String
+  status     String    @default("ENROLLED")
+  progress   Int       @default(0)
+  completedAt DateTime?
+
+  @@unique([courseId, employeeId])
+  @@map("enrollments")
+}
+
+// BILLING
+model Invoice {
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  invoiceNumber String   @unique
+  amount        Decimal  @db.Decimal(15, 2)
+  currency      String   @default("AOA")
+  issueDate     DateTime
+  dueDate       DateTime
+  paidDate      DateTime?
+  status        String   @default("PENDING")
+
+  createdAt DateTime @default(now())
+  @@map("invoices")
+}
+
+// INCIDENTS
+model Incident {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String
+  severity    String
+  status      String   @default("OPEN")
+
+  createdAt  DateTime @default(now())
+  resolvedAt DateTime?
+
+  @@map("incidents")
+}
+
+// AUDIT
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  action     String
+  resource   String
+  resourceId String
+  result     String
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@map("audit_logs")
+}
