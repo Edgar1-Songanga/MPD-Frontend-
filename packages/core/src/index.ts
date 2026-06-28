@@ -1,5 +1,7 @@
 export * from './auth/index.js'
 export * from './rbac/index.js'
+export * from './audit/index.js'
+export * from './security/index.js'
 export * from './events/index.js'
 export * from './errors/index.js'
 export * from './utils/index.js'
